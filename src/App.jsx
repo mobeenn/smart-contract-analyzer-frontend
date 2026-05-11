@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
+import Features from "./pages/Features";
+import Pricing from "./pages/Pricing";
 
 function App() {
    return (
@@ -15,6 +17,8 @@ function App() {
          <Router>
             <Routes>
                <Route path="/" element={<Landing />} />
+               <Route path="/features" element={<Features />} />
+               <Route path="/pricing" element={<Pricing />} />
                <Route path="/login" element={<Login />} />
                <Route path="/signup" element={<Signup />} />
                <Route
