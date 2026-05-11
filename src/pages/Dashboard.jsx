@@ -8,7 +8,7 @@ import TopNav from "../components/TopNav";
 import ContractInput from "../components/ContractInput";
 import AnalysisResults from "../components/AnalysisResults";
 
-function Dashboard() {
+export default function Dashboard() {
    const { updateCredits } = useAuth();
    const [code, setCode] = useState("");
    const [loading, setLoading] = useState(false);
@@ -32,145 +32,75 @@ function Dashboard() {
             toast.error("Analysis failed. Please try again.");
          }
       } catch (error) {
+         const data = error.response?.data;
+
          const errorMessage =
-            error.response?.data?.message ||
+            data?.message ||
+            data?.error ||
             "Analysis failed. Please try again.";
+
          toast.error(errorMessage);
+
+         // optional: credits finish hone pe extra info
+         if (data?.contactEmail) {
+            toast.info(`Contact support: ${data.contactEmail}`);
+         }
       } finally {
          setLoading(false);
       }
    };
 
    return (
-      <div
-         className="min-h-screen flex"
-         style={{
-            background:
-               "linear-gradient(135deg, #020408 0%, #030d1a 50%, #020810 100%)",
-            fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-         }}
-      >
-         {/* Ambient background effects */}
-         <div
-            style={{
-               position: "fixed",
-               inset: 0,
-               pointerEvents: "none",
-               zIndex: 0,
-               background: `
-          radial-gradient(ellipse 80% 50% at 20% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
-          radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,100,255,0.03) 0%, transparent 60%)
-        `,
-            }}
-         />
-
-         {/* Grid overlay */}
-         <div
-            style={{
-               position: "fixed",
-               inset: 0,
-               pointerEvents: "none",
-               zIndex: 0,
-               backgroundImage: `
-          linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)
-        `,
-               backgroundSize: "40px 40px",
-            }}
-         />
+      <div className="min-h-screen bg-[#030712] flex relative overflow-hidden">
+         {/* Global ambient glow */}
+         <div className="pointer-events-none fixed inset-0 z-0">
+            <div className="absolute top-0 left-64 w-[600px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-blue-500/5 rounded-full blur-3xl" />
+            {/* Grid */}
+            <div
+               className="absolute inset-0 opacity-[0.025]"
+               style={{
+                  backgroundImage:
+                     "linear-gradient(rgba(6,182,212,1) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)",
+                  backgroundSize: "50px 50px",
+               }}
+            />
+         </div>
 
          <Sidebar />
 
-         <div
-            className="flex-1 flex flex-col min-w-0"
-            style={{ position: "relative", zIndex: 1 }}
-         >
+         <div className="flex-1 flex flex-col min-w-0 relative z-10">
             <TopNav />
 
-            <main style={{ flex: 1, padding: "1.5rem", overflowY: "auto" }}>
-               <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-                  {/* Header */}
+            <main className="flex-1 p-6 overflow-auto">
+               <div className="max-w-6xl mx-auto">
+                  {/* Page Header */}
                   <motion.div
-                     initial={{ opacity: 0, y: -20 }}
+                     initial={{ opacity: 0, y: 16 }}
                      animate={{ opacity: 1, y: 0 }}
                      transition={{ duration: 0.5 }}
-                     style={{ marginBottom: "1.5rem" }}
+                     className="mb-8"
                   >
-                     <div
-                        style={{
-                           display: "flex",
-                           alignItems: "center",
-                           gap: "0.75rem",
-                           marginBottom: "0.5rem",
-                        }}
-                     >
-                        <div
-                           style={{
-                              width: "8px",
-                              height: "8px",
-                              borderRadius: "50%",
-                              background: "#00d4ff",
-                              boxShadow: "0 0 8px #00d4ff, 0 0 16px #00d4ff",
-                              animation: "pulse 2s infinite",
-                           }}
-                        />
-                        <span
-                           style={{
-                              color: "#00d4ff",
-                              fontSize: "0.7rem",
-                              letterSpacing: "0.2em",
-                              textTransform: "uppercase",
-                              fontWeight: 600,
-                           }}
-                        >
-                           AuditAI // Security Terminal
+                     <div className="flex items-center gap-2 mb-2">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        <span className="text-cyan-400 text-xs font-semibold uppercase tracking-widest">
+                           AI Audit Engine — Active
                         </span>
                      </div>
-                     <h1
-                        style={{
-                           fontSize: "1.75rem",
-                           fontWeight: 700,
-                           color: "#ffffff",
-                           letterSpacing: "-0.02em",
-                           lineHeight: 1.2,
-                        }}
-                     >
-                        Contract{" "}
-                        <span
-                           style={{
-                              background:
-                                 "linear-gradient(90deg, #00d4ff, #0066ff)",
-                              WebkitBackgroundClip: "text",
-                              WebkitTextFillColor: "transparent",
-                           }}
-                        >
-                           Analyzer
-                        </span>
+                     <h1 className="text-3xl font-black text-white tracking-tight">
+                        Contract Analyzer
                      </h1>
-                     <p
-                        style={{
-                           color: "#4a6b7c",
-                           fontSize: "0.85rem",
-                           marginTop: "0.25rem",
-                           letterSpacing: "0.02em",
-                        }}
-                     >
-                        AI-powered security audit · Blockchain-verified results
-                        · Ethereum Sepolia
+                     <p className="text-gray-500 mt-1 text-sm">
+                        Paste your Solidity contract. AI scans for 8+
+                        vulnerability classes and stores proof on Ethereum
+                        Sepolia.
                      </p>
                   </motion.div>
 
-                  {/* Main Grid */}
-                  <div
-                     style={{
-                        display: "grid",
-                        gridTemplateColumns:
-                           "repeat(auto-fit, minmax(480px, 1fr))",
-                        gap: "1.25rem",
-                     }}
-                  >
+                  {/* Main grid */}
+                  <div className="grid lg:grid-cols-2 gap-6">
                      <motion.div
-                        initial={{ opacity: 0, x: -30 }}
+                        initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                      >
@@ -183,7 +113,7 @@ function Dashboard() {
                      </motion.div>
 
                      <motion.div
-                        initial={{ opacity: 0, x: 30 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                      >
@@ -193,20 +123,6 @@ function Dashboard() {
                </div>
             </main>
          </div>
-
-         <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #050e1a; }
-        ::-webkit-scrollbar-thumb { background: #00d4ff22; border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00d4ff44; }
-      `}</style>
       </div>
    );
 }
-
-export default Dashboard;
