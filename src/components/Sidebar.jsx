@@ -477,7 +477,7 @@ export default function Sidebar() {
 
    const handleLogout = () => {
       logout();
-      window.location.href = "/";
+      window.location.href = "/login";
    };
 
    const closeSidebar = () => {
