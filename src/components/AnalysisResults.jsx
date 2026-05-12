@@ -1407,7 +1407,7 @@ export default function AnalysisResults({ results, loading }) {
                               {results.txHash}
                            </code>
                            <a
-                              href={`https://etherscan.io/tx/${results.txHash}`}
+                              href={`https://sepolia.etherscan.io/tx/${results.txHash}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex-shrink-0 p-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-500 hover:text-cyan-400 hover:border-cyan-500/25 transition-all"

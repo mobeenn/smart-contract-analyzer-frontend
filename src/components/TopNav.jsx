@@ -402,7 +402,8 @@ export default function TopNav() {
    };
 
    return (
-      <header className="relative z-20 bg-white/[0.02] backdrop-blur-xl border-b border-white/[0.07]">
+      // <header className="relative z-20 bg-white/[0.02] backdrop-blur-xl border-b border-white/[0.07]">
+      <header className="sticky top-0 z-30 bg-[#030712]/80 backdrop-blur-xl border-b border-white/[0.07]">
          <div className="flex items-center justify-between h-16 px-4 sm:px-6">
             {/* Mobile toggle */}
             <button

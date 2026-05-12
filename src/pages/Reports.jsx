@@ -935,7 +935,7 @@ function Reports() {
                                        <div>
                                           {report.txHash ? (
                                              <a
-                                                href={`https://etherscan.io/tx/${report.txHash}`}
+                                                href={`https://sepolia.etherscan.io/tx/${report.txHash}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 style={{
@@ -1135,7 +1135,7 @@ function Reports() {
                                              TX HASH
                                           </p>
                                           <a
-                                             href={`https://etherscan.io/tx/${report.txHash}`}
+                                             href={`https://sepolia.etherscan.io/tx/${report.txHash}`}
                                              target="_blank"
                                              rel="noopener noreferrer"
                                              style={{

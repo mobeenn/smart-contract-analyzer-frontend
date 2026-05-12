@@ -320,11 +320,150 @@
 
 // export default Sidebar;
 
+// import { Link, useLocation } from "react-router-dom";
+// import { motion } from "framer-motion";
+// import { FaShieldAlt } from "react-icons/fa";
+// import { LayoutDashboard, FileText, LogOut, Zap } from "lucide-react";
+// import { useAuth } from "../context/AuthContext";
+
+// const navigation = [
+//    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+//    { name: "Reports", href: "/reports", icon: FileText },
+// ];
+
+// export default function Sidebar() {
+//    const location = useLocation();
+//    const { logout, user } = useAuth();
+
+//    const handleLogout = () => {
+//       logout();
+//       window.location.href = "/";
+//    };
+
+//    return (
+//       <>
+//          <aside className="hidden lg:flex lg:flex-col lg:w-64 relative z-20">
+//             {/* Glass panel */}
+//             <div className="flex flex-col h-full bg-white/[0.03] backdrop-blur-xl border-r border-white/[0.07]">
+//                {/* Logo */}
+//                <div className="flex items-center gap-3 h-16 px-6 border-b border-white/[0.07]">
+//                   <div className="p-2 rounded-xl bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+//                      <FaShieldAlt size={14} />
+//                   </div>
+//                   <span className="text-lg font-bold text-white tracking-tight">
+//                      Audit<span className="text-cyan-400">AI</span>
+//                   </span>
+//                </div>
+
+//                {/* Nav */}
+//                <nav className="flex-1 p-4 space-y-1">
+//                   {navigation.map(({ name, href, icon: Icon }, i) => {
+//                      const isActive = location.pathname === href;
+//                      return (
+//                         <motion.div
+//                            key={name}
+//                            initial={{ opacity: 0, x: -10 }}
+//                            animate={{ opacity: 1, x: 0 }}
+//                            transition={{ delay: i * 0.08 }}
+//                         >
+//                            <Link
+//                               to={href}
+//                               className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative overflow-hidden ${
+//                                  isActive
+//                                     ? "text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]"
+//                                     : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
+//                               }`}
+//                            >
+//                               {isActive && (
+//                                  <motion.div
+//                                     layoutId="activeNav"
+//                                     className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+//                                  />
+//                               )}
+//                               <Icon
+//                                  className={`w-4 h-4 transition-all duration-200 ${
+//                                     isActive
+//                                        ? "text-cyan-400"
+//                                        : "text-gray-500 group-hover:text-gray-300"
+//                                  }`}
+//                               />
+//                               {name}
+//                               {isActive && (
+//                                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,1)]" />
+//                               )}
+//                            </Link>
+//                         </motion.div>
+//                      );
+//                   })}
+//                </nav>
+
+//                {/* Credit mini-display */}
+//                <div className="px-4 pb-3">
+//                   <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/15">
+//                      <div className="flex items-center justify-between mb-2">
+//                         <div className="flex items-center gap-1.5">
+//                            <Zap className="w-3.5 h-3.5 text-cyan-400" />
+//                            <span className="text-xs text-gray-400 font-medium">
+//                               Credits
+//                            </span>
+//                         </div>
+//                         <span className="text-xs font-bold text-white">
+//                            {user?.credits ?? 0}
+//                         </span>
+//                      </div>
+//                      <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+//                         <motion.div
+//                            className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+//                            initial={{ width: 0 }}
+//                            animate={{
+//                               width: `${Math.min(((user?.credits ?? 0) / 100) * 100, 100)}%`,
+//                            }}
+//                            transition={{ duration: 1, delay: 0.5 }}
+//                         />
+//                      </div>
+//                      <p className="text-[10px] text-gray-600 mt-1.5">
+//                         Each audit costs 20 credits
+//                      </p>
+//                   </div>
+//                </div>
+
+//                {/* User + Logout */}
+//                <div className="p-4 border-t border-white/[0.07]">
+//                   <div className="flex items-center gap-3 px-2 py-2 mb-2">
+//                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+//                         <span className="text-xs font-bold text-white">
+//                            {user?.name?.charAt(0).toUpperCase() || "U"}
+//                         </span>
+//                      </div>
+//                      <div className="flex-1 min-w-0">
+//                         <p className="text-sm font-medium text-white truncate">
+//                            {user?.name}
+//                         </p>
+//                         <p className="text-xs text-gray-600 truncate">
+//                            {user?.email}
+//                         </p>
+//                      </div>
+//                   </div>
+//                   <button
+//                      onClick={handleLogout}
+//                      className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-red-400 hover:bg-red-500/5 border border-transparent hover:border-red-500/10 transition-all duration-200"
+//                   >
+//                      <LogOut className="w-4 h-4" />
+//                      Logout
+//                   </button>
+//                </div>
+//             </div>
+//          </aside>
+//       </>
+//    );
+// }
+
 import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaShieldAlt } from "react-icons/fa";
-import { LayoutDashboard, FileText, LogOut, Zap } from "lucide-react";
+import { LayoutDashboard, FileText, LogOut, Zap, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const navigation = [
    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -334,124 +473,284 @@ const navigation = [
 export default function Sidebar() {
    const location = useLocation();
    const { logout, user } = useAuth();
+   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
    const handleLogout = () => {
       logout();
       window.location.href = "/";
    };
 
+   const closeSidebar = () => {
+      setIsSidebarOpen(false);
+   };
+
    return (
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 relative z-20">
-         {/* Glass panel */}
-         <div className="flex flex-col h-full bg-white/[0.03] backdrop-blur-xl border-r border-white/[0.07]">
-            {/* Logo */}
-            <div className="flex items-center gap-3 h-16 px-6 border-b border-white/[0.07]">
-               <div className="p-2 rounded-xl bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]">
-                  <FaShieldAlt size={14} />
+      <>
+         {/* Mobile Menu Button */}
+         <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-white"
+         >
+            <Menu className="w-5 h-5" />
+         </button>
+
+         {/* Desktop Sidebar */}
+         <aside className="hidden lg:flex lg:flex-col lg:w-64 h-screen sticky top-0 z-20">
+            <div className="flex flex-col h-full bg-white/[0.03] backdrop-blur-xl border-r border-white/[0.07]">
+               {/* Logo */}
+               <div className="flex items-center gap-3 h-16 px-6 border-b border-white/[0.07]">
+                  <div className="p-2 rounded-xl bg-cyan-500 text-black shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+                     <FaShieldAlt size={14} />
+                  </div>
+                  <span className="text-lg font-bold text-white tracking-tight">
+                     Audit<span className="text-cyan-400">AI</span>
+                  </span>
                </div>
-               <span className="text-lg font-bold text-white tracking-tight">
-                  Audit<span className="text-cyan-400">AI</span>
-               </span>
-            </div>
 
-            {/* Nav */}
-            <nav className="flex-1 p-4 space-y-1">
-               {navigation.map(({ name, href, icon: Icon }, i) => {
-                  const isActive = location.pathname === href;
-                  return (
-                     <motion.div
-                        key={name}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.08 }}
-                     >
-                        <Link
-                           to={href}
-                           className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative overflow-hidden ${
-                              isActive
-                                 ? "text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]"
-                                 : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
-                           }`}
+               {/* Nav */}
+               <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                  {navigation.map(({ name, href, icon: Icon }, i) => {
+                     const isActive = location.pathname === href;
+
+                     return (
+                        <motion.div
+                           key={name}
+                           initial={{ opacity: 0, x: -10 }}
+                           animate={{ opacity: 1, x: 0 }}
+                           transition={{ delay: i * 0.08 }}
                         >
-                           {isActive && (
-                              <motion.div
-                                 layoutId="activeNav"
-                                 className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-                              />
-                           )}
-                           <Icon
-                              className={`w-4 h-4 transition-all duration-200 ${
+                           <Link
+                              to={href}
+                              className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative overflow-hidden ${
                                  isActive
-                                    ? "text-cyan-400"
-                                    : "text-gray-500 group-hover:text-gray-300"
+                                    ? "text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 shadow-[inset_0_0_20px_rgba(34,211,238,0.05)]"
+                                    : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
                               }`}
-                           />
-                           {name}
-                           {isActive && (
-                              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,1)]" />
-                           )}
-                        </Link>
-                     </motion.div>
-                  );
-               })}
-            </nav>
+                           >
+                              {isActive && (
+                                 <motion.div
+                                    layoutId="activeNav"
+                                    className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                                 />
+                              )}
 
-            {/* Credit mini-display */}
-            <div className="px-4 pb-3">
-               <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/15">
-                  <div className="flex items-center justify-between mb-2">
-                     <div className="flex items-center gap-1.5">
-                        <Zap className="w-3.5 h-3.5 text-cyan-400" />
-                        <span className="text-xs text-gray-400 font-medium">
-                           Credits
+                              <Icon
+                                 className={`w-4 h-4 ${
+                                    isActive
+                                       ? "text-cyan-400"
+                                       : "text-gray-500 group-hover:text-gray-300"
+                                 }`}
+                              />
+
+                              {name}
+
+                              {isActive && (
+                                 <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,1)]" />
+                              )}
+                           </Link>
+                        </motion.div>
+                     );
+                  })}
+               </nav>
+
+               {/* Credit Display */}
+               <div className="px-4 pb-3">
+                  <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/15">
+                     <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-1.5">
+                           <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                           <span className="text-xs text-gray-400 font-medium">
+                              Credits
+                           </span>
+                        </div>
+
+                        <span className="text-xs font-bold text-white">
+                           {user?.credits ?? 0}
                         </span>
                      </div>
-                     <span className="text-xs font-bold text-white">
-                        {user?.credits ?? 0}
-                     </span>
-                  </div>
-                  <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                     <motion.div
-                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{
-                           width: `${Math.min(((user?.credits ?? 0) / 100) * 100, 100)}%`,
-                        }}
-                        transition={{ duration: 1, delay: 0.5 }}
-                     />
-                  </div>
-                  <p className="text-[10px] text-gray-600 mt-1.5">
-                     Each audit costs 20 credits
-                  </p>
-               </div>
-            </div>
 
-            {/* User + Logout */}
-            <div className="p-4 border-t border-white/[0.07]">
-               <div className="flex items-center gap-3 px-2 py-2 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
-                     <span className="text-xs font-bold text-white">
-                        {user?.name?.charAt(0).toUpperCase() || "U"}
-                     </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                     <p className="text-sm font-medium text-white truncate">
-                        {user?.name}
-                     </p>
-                     <p className="text-xs text-gray-600 truncate">
-                        {user?.email}
+                     <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                        <motion.div
+                           className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+                           initial={{ width: 0 }}
+                           animate={{
+                              width: `${Math.min(
+                                 ((user?.credits ?? 0) / 100) * 100,
+                                 100,
+                              )}%`,
+                           }}
+                           transition={{ duration: 1 }}
+                        />
+                     </div>
+
+                     <p className="text-[10px] text-gray-600 mt-1.5">
+                        Each audit costs 20 credits
                      </p>
                   </div>
                </div>
-               <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-red-400 hover:bg-red-500/5 border border-transparent hover:border-red-500/10 transition-all duration-200"
-               >
-                  <LogOut className="w-4 h-4" />
-                  Logout
-               </button>
+
+               {/* User Section */}
+               <div className="p-4 border-t border-white/[0.07]">
+                  <div className="flex items-center gap-3 px-2 py-2 mb-2">
+                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">
+                           {user?.name?.charAt(0).toUpperCase() || "U"}
+                        </span>
+                     </div>
+
+                     <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-white truncate">
+                           {user?.name}
+                        </p>
+                        <p className="text-xs text-gray-600 truncate">
+                           {user?.email}
+                        </p>
+                     </div>
+                  </div>
+
+                  <button
+                     onClick={handleLogout}
+                     className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-red-400 hover:bg-red-500/5 border border-transparent hover:border-red-500/10 transition-all duration-200"
+                  >
+                     <LogOut className="w-4 h-4" />
+                     Logout
+                  </button>
+               </div>
             </div>
-         </div>
-      </aside>
+         </aside>
+
+         {/* Mobile Sidebar */}
+         <AnimatePresence>
+            {isSidebarOpen && (
+               <>
+                  {/* Overlay */}
+                  <motion.div
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1 }}
+                     exit={{ opacity: 0 }}
+                     onClick={closeSidebar}
+                     className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+                  />
+
+                  {/* Sidebar Panel */}
+                  <motion.aside
+                     initial={{ x: "-100%" }}
+                     animate={{ x: 0 }}
+                     exit={{ x: "-100%" }}
+                     transition={{ duration: 0.3 }}
+                     className="fixed left-0 top-0 h-screen w-64 z-50 lg:hidden bg-[#0B1120] border-r border-white/[0.07]"
+                  >
+                     <div className="flex flex-col h-full bg-white/[0.03] backdrop-blur-xl">
+                        {/* Mobile Header */}
+                        <div className="flex items-center justify-between h-16 px-6 border-b border-white/[0.07]">
+                           <div className="flex items-center gap-3">
+                              <div className="p-2 rounded-xl bg-cyan-500 text-black">
+                                 <FaShieldAlt size={14} />
+                              </div>
+
+                              <span className="text-lg font-bold text-white">
+                                 Audit
+                                 <span className="text-cyan-400">AI</span>
+                              </span>
+                           </div>
+
+                           <button onClick={closeSidebar}>
+                              <X className="w-5 h-5 text-white" />
+                           </button>
+                        </div>
+
+                        {/* Mobile Nav */}
+                        {/* Mobile Nav */}
+                        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+                           {navigation.map(({ name, href, icon: Icon }) => {
+                              const isActive = location.pathname === href;
+
+                              return (
+                                 <Link
+                                    key={name}
+                                    to={href}
+                                    onClick={closeSidebar}
+                                    className={`flex items-center gap-3 px-3 py-3 rounded-xl ${
+                                       isActive
+                                          ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                                          : "text-gray-400 hover:bg-white/5"
+                                    }`}
+                                 >
+                                    <Icon className="w-4 h-4" />
+                                    {name}
+                                 </Link>
+                              );
+                           })}
+                        </nav>
+
+                        {/* Mobile Credits */}
+                        <div className="px-4 pb-3">
+                           <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/15">
+                              <div className="flex items-center justify-between mb-2">
+                                 <div className="flex items-center gap-1.5">
+                                    <Zap className="w-3.5 h-3.5 text-cyan-400" />
+                                    <span className="text-xs text-gray-400 font-medium">
+                                       Credits
+                                    </span>
+                                 </div>
+
+                                 <span className="text-xs font-bold text-white">
+                                    {user?.credits ?? 0}
+                                 </span>
+                              </div>
+
+                              <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                 <motion.div
+                                    className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+                                    initial={{ width: 0 }}
+                                    animate={{
+                                       width: `${Math.min(
+                                          ((user?.credits ?? 0) / 100) * 100,
+                                          100,
+                                       )}%`,
+                                    }}
+                                    transition={{ duration: 1 }}
+                                 />
+                              </div>
+
+                              <p className="text-[10px] text-gray-600 mt-1.5">
+                                 Each audit costs 20 credits
+                              </p>
+                           </div>
+                        </div>
+
+                        {/* Mobile User + Logout */}
+                        <div className="p-4 border-t border-white/[0.07]">
+                           <div className="flex items-center gap-3 px-2 py-2 mb-2">
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+                                 <span className="text-xs font-bold text-white">
+                                    {user?.name?.charAt(0).toUpperCase() || "U"}
+                                 </span>
+                              </div>
+
+                              <div className="flex-1 min-w-0">
+                                 <p className="text-sm font-medium text-white truncate">
+                                    {user?.name}
+                                 </p>
+                                 <p className="text-xs text-gray-600 truncate">
+                                    {user?.email}
+                                 </p>
+                              </div>
+                           </div>
+
+                           <button
+                              onClick={handleLogout}
+                              className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-red-400 hover:bg-red-500/5 border border-transparent hover:border-red-500/10 transition-all duration-200"
+                           >
+                              <LogOut className="w-4 h-4" />
+                              Logout
+                           </button>
+                        </div>
+                     </div>
+                  </motion.aside>
+               </>
+            )}
+         </AnimatePresence>
+      </>
    );
 }
